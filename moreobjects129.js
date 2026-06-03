@@ -470,3 +470,56 @@ class Banner {
     return `| ${this.message} |`;
   }
 }
+
+////////////////////
+
+// A circular buffer has a fixed size. When full, adding a new item
+// replaces the oldest item in the buffer.
+// 
+// Implement a CircularBuffer class with:
+// - constructor that accepts a buffer size
+// - put(item) adds an item to the buffer
+//   if full, overwrites the oldest item
+// - get() removes and returns the oldest item
+//   returns null if buffer is empty
+
+class CircularBuffer {
+  constructor(size) {
+    this.size = size;
+    this.items = [];
+  }
+  
+  get() {
+    if(this.items.length === 0) return null;
+    return this.items.shift();
+  }
+  
+  put(item) {
+    if(this.items.length === this.size) {
+      this.items.shift();
+      this.items.push(item);
+    } else {
+        this.items.push(item);
+    }
+  }
+}
+
+// Check if the buffer is full
+// If full, remove the oldest item first
+// Then add the new item
+
+let buffer = new CircularBuffer(3);
+console.log(buffer.get() === null);  // true
+buffer.put(1);
+buffer.put(2);
+console.log(buffer.get() === 1);     // true
+buffer.put(3);
+buffer.put(4);
+console.log(buffer.get() === 2);     // true
+buffer.put(5);
+buffer.put(6);
+buffer.put(7);
+console.log(buffer.get() === 5);     // true
+console.log(buffer.get() === 6);     // true
+console.log(buffer.get() === 7);     // true
+console.log(buffer.get() === null);  // true
